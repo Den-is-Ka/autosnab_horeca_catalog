@@ -1,0 +1,66 @@
+[
+  {
+    "id": 1,
+    "name": "Лапы куриные",
+    "supplier": "ООО «ПтицеФерма»",
+    "unit": "кг",
+    "price": 100,
+    "image": "/products/chicken-feet.svg"
+  },
+  {
+    "id": 2,
+    "name": "Филе куриное",
+    "supplier": "ООО «ПтицеФерма»",
+    "unit": "кг",
+    "price": 350,
+    "image": "/products/chicken-fillet.svg"
+  },
+  {
+    "id": 3,
+    "name": "Голень куриная",
+    "supplier": "ООО «ПтицеФерма»",
+    "unit": "кг",
+    "price": 250,
+    "image": "/products/chicken-drumstick.svg"
+  },
+  {
+    "id": 4,
+    "name": "Крылья куриные",
+    "supplier": "ООО «ПтицеФерма»",
+    "unit": "кг",
+    "price": 180,
+    "image": "/products/chicken-wings.svg"
+  },
+  {
+    "id": 5,
+    "name": "Сливки 33%",
+    "supplier": "ООО «Молочный край»",
+    "unit": "шт.",
+    "price": 280,
+    "image": "/products/cream.svg"
+  },
+  {
+    "id": 6,
+    "name": "Сыр для пиццы",
+    "supplier": "ООО «СырТрейд»",
+    "unit": "кг",
+    "price": 650,
+    "image": "/products/pizza-cheese.svg"
+  },
+  {
+    "id": 7,
+    "name": "Томаты",
+    "supplier": "ООО «Овощная база»",
+    "unit": "кг",
+    "price": 210,
+    "image": "/products/tomatoes.svg"
+  },
+  {
+    "id": 8,
+    "name": "Молоко",
+    "supplier": "ООО «Молочный край»",
+    "unit": "шт.",
+    "price": 120,
+    "image": "/products/milk.svg"
+  }
+]
