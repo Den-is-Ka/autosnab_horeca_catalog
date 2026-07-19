@@ -1,9 +1,13 @@
 "use client";
 
-import productsData from "@/data/products.json";
 import { useCart } from "@/context/cart_context";
+import productsData from "@/data/products.json";
 import { type Product } from "@/types/product";
 
+import {
+  CatalogErrorState,
+  CatalogLoadingState,
+} from "./catalog_states";
 import { ProductCard } from "./product_card";
 
 type ProductAddedPayload = {
@@ -14,6 +18,9 @@ type ProductAddedPayload = {
 
 type ProductCatalogProps = {
   products?: Product[];
+  isLoading?: boolean;
+  errorMessage?: string | null;
+  onRetry?: () => void;
   onProductAdded?: (payload: ProductAddedPayload) => void;
 };
 
@@ -21,9 +28,25 @@ const defaultProducts = productsData as Product[];
 
 export function ProductCatalog({
   products = defaultProducts,
+  isLoading = false,
+  errorMessage = null,
+  onRetry,
   onProductAdded,
 }: ProductCatalogProps) {
   const { addProduct } = useCart();
+
+  if (isLoading) {
+    return <CatalogLoadingState />;
+  }
+
+  if (errorMessage) {
+    return (
+      <CatalogErrorState
+        message={errorMessage}
+        onRetry={onRetry}
+      />
+    );
+  }
 
   const handleAddProduct = (
     product: Product,

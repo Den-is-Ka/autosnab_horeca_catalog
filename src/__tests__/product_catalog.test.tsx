@@ -4,7 +4,6 @@ import {
   within,
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import type { ImgHTMLAttributes } from "react";
 import { describe, expect, it, vi } from "vitest";
 
 import { ProductCatalog } from "@/components/catalog/product_catalog";
@@ -14,12 +13,7 @@ import {
 } from "@/context/cart_context";
 
 vi.mock("next/image", () => ({
-  default: ({
-    fill: _fill,
-    ...imageProps
-  }: ImgHTMLAttributes<HTMLImageElement> & {
-    fill?: boolean;
-  }) => <img {...imageProps} />,
+  default: () => null,
 }));
 
 function CartSummary() {
@@ -42,6 +36,76 @@ function renderCatalog(
     </CartProvider>,
   );
 }
+
+  it("показывает состояние загрузки каталога", () => {
+    renderCatalog({
+      isLoading: true,
+    });
+
+    const loadingState = screen.getByRole("status");
+
+    expect(loadingState).toHaveAttribute(
+      "aria-busy",
+      "true",
+    );
+
+    expect(
+      screen.getByText("Загружаем товары каталога"),
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getAllByRole("article", {
+        hidden: true,
+      }),
+    ).toHaveLength(8);
+
+    expect(
+      screen.queryByRole("heading", {
+        name: "Продукты для HoReCa",
+      }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("показывает ошибку и запускает повторную загрузку", async () => {
+    const user = userEvent.setup();
+    const onRetry = vi.fn();
+
+    renderCatalog({
+      errorMessage:
+        "Сервис каталога временно недоступен.",
+      onRetry,
+    });
+
+    const errorState = screen.getByRole("alert");
+
+    expect(errorState).toBeInTheDocument();
+
+    expect(
+      screen.getByRole("heading", {
+        name: "Ошибка загрузки",
+      }),
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByText(
+        "Сервис каталога временно недоступен.",
+      ),
+    ).toBeInTheDocument();
+
+    const retryButton = screen.getByRole("button", {
+      name: "Повторить загрузку",
+    });
+
+    await user.click(retryButton);
+
+    expect(onRetry).toHaveBeenCalledTimes(1);
+
+    expect(
+      screen.queryByRole("heading", {
+        name: "Продукты для HoReCa",
+      }),
+    ).not.toBeInTheDocument();
+  });
 
 describe("ProductCatalog", () => {
   it("показывает восемь товаров из локального JSON", () => {
