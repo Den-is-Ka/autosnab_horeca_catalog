@@ -7,6 +7,7 @@ import {
 } from "@copilotkit/react-core/v2";
 import { useCallback, useState } from "react";
 
+import { ProductRecommendationsTool } from "@/components/copilot/product_recommendations_tool";
 import { CatalogHeader } from "@/components/catalog/catalog_header";
 import { ProductCatalog } from "@/components/catalog/product_catalog";
 import {
@@ -35,8 +36,10 @@ function CatalogPageContent() {
   }, []);
 
   return (
-    <>
-      <div className="min-h-screen bg-slate-100">
+  <>
+    <ProductRecommendationsTool />
+
+    <div className="min-h-screen bg-slate-100">
         <CatalogHeader onOpenAssistant={openAssistant} />
 
         <ProductCatalog
