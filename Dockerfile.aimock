@@ -1,0 +1,19 @@
+# syntax=docker/dockerfile:1
+
+FROM node:24-alpine
+
+WORKDIR /app
+
+ENV NODE_ENV=development
+ENV COPILOTKIT_TELEMETRY_DISABLED=true
+
+COPY package.json package-lock.json ./
+
+RUN npm ci
+
+COPY aimock.json ./aimock.json
+COPY fixtures ./fixtures
+
+EXPOSE 4010
+
+CMD ["./node_modules/.bin/aimock", "--config", "./aimock.json", "--host", "0.0.0.0"]

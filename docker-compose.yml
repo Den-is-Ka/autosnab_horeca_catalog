@@ -1,4 +1,30 @@
 services:
+  aimock:
+    build:
+      context: .
+      dockerfile: Dockerfile.aimock
+
+    image: autosnab-horeca-aimock:local
+    container_name: autosnab-horeca-aimock
+
+    ports:
+      - "4010:4010"
+
+    restart: unless-stopped
+
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "const net = require('net'); const socket = net.connect(4010, '127.0.0.1', () => { socket.end(); process.exit(0); }); socket.on('error', () => process.exit(1)); setTimeout(() => process.exit(1), 3000);",
+        ]
+      interval: 5s
+      timeout: 4s
+      retries: 10
+      start_period: 10s
+
   app:
     build:
       context: .
@@ -10,8 +36,13 @@ services:
     ports:
       - "3001:3000"
 
-    env_file:
-      - .env.local
+    environment:
+      AIMOCK_BASE_URL: "http://aimock:4010/v1"
+      COPILOTKIT_TELEMETRY_DISABLED: "true"
+
+    depends_on:
+      aimock:
+        condition: service_healthy
 
     restart: unless-stopped
 
@@ -27,4 +58,3 @@ services:
       timeout: 5s
       retries: 5
       start_period: 15s
-
