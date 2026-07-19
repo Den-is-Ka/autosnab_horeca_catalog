@@ -17,8 +17,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "АвтоСнаб AI Workspace",
-  description: "Демонстрационное приложение с интеграцией CopilotKit",
+  title: "АвтоСнаб HoReCa Catalog",
+  description:
+    "Адаптивный каталог продуктов HoReCa с AI-помощником на базе CopilotKit",
 };
 
 export default function RootLayout({

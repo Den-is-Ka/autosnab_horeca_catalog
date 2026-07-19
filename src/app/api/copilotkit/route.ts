@@ -1,3 +1,4 @@
+import { createOpenAI } from "@ai-sdk/openai";
 import {
   CopilotRuntime,
   copilotRuntimeNextJSAppRouterEndpoint,
@@ -5,11 +6,17 @@ import {
 import { BuiltInAgent } from "@copilotkit/runtime/v2";
 import type { NextRequest } from "next/server";
 
-const model =
-  process.env.COPILOTKIT_MODEL?.trim() || "openai:gpt-5.4-mini";
+const aimockBaseUrl =
+  process.env.AIMOCK_BASE_URL?.trim() ||
+  "http://127.0.0.1:4010/v1";
+
+const mockOpenAI = createOpenAI({
+  apiKey: "aimock-local-key",
+  baseURL: aimockBaseUrl,
+});
 
 const builtInAgent = new BuiltInAgent({
-  model,
+  model: mockOpenAI("horeca-catalog-mock"),
 });
 
 const runtime = new CopilotRuntime({
@@ -19,10 +26,11 @@ const runtime = new CopilotRuntime({
 });
 
 export const POST = async (request: NextRequest) => {
-  const { handleRequest } = copilotRuntimeNextJSAppRouterEndpoint({
-    runtime,
-    endpoint: "/api/copilotkit",
-  });
+  const { handleRequest } =
+    copilotRuntimeNextJSAppRouterEndpoint({
+      runtime,
+      endpoint: "/api/copilotkit",
+    });
 
   return handleRequest(request);
 };

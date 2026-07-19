@@ -1,0 +1,36 @@
+{
+  "fixtures": [
+    {
+      "match": {
+        "userMessage": "Подбери товары на сумму до 5 000 ₽",
+        "hasToolResult": false
+      },
+      "response": {
+        "content": null,
+        "toolCalls": [
+          {
+            "name": "show_product_recommendations",
+            "arguments": "{\"recommendations\":[{\"productId\":2,\"quantity\":4},{\"productId\":6,\"quantity\":3},{\"productId\":7,\"quantity\":5},{\"productId\":5,\"quantity\":2}]}"
+          }
+        ]
+      }
+    },
+    {
+      "match": {
+        "userMessage": "Подбери товары на сумму до 5 000 ₽",
+        "hasToolResult": true
+      },
+      "response": {
+        "content": "Подборка готова. Общая стоимость — 4 960 ₽. Добавьте нужные позиции в корзину с помощью кнопок в карточках."
+      }
+    },
+    {
+      "match": {
+        "userMessage": ".*"
+      },
+      "response": {
+        "content": "Я работаю в демонстрационном режиме. Введите запрос: «Подбери товары на сумму до 5 000 ₽»."
+      }
+    }
+  ]
+}
