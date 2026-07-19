@@ -2,14 +2,15 @@
 
 import {
   CopilotChatConfigurationProvider,
+  CopilotPopup,
   CopilotSidebar,
   useCopilotChatConfiguration,
 } from "@copilotkit/react-core/v2";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
-import { ProductRecommendationsTool } from "@/components/copilot/product_recommendations_tool";
 import { CatalogHeader } from "@/components/catalog/catalog_header";
 import { ProductCatalog } from "@/components/catalog/product_catalog";
+import { ProductRecommendationsTool } from "@/components/copilot/product_recommendations_tool";
 import {
   ToastNotification,
   type ToastKind,
@@ -21,7 +22,44 @@ type ToastState = {
   kind: ToastKind;
 };
 
+type AssistantMode = "sidebar" | "popup";
+
 const priceFormatter = new Intl.NumberFormat("ru-RU");
+
+function useResponsiveAssistantMode(): AssistantMode | null {
+  const [mode, setMode] = useState<AssistantMode | null>(null);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width: 1024px)");
+
+    const updateMode = () => {
+      setMode(mediaQuery.matches ? "sidebar" : "popup");
+    };
+
+    updateMode();
+    mediaQuery.addEventListener("change", updateMode);
+
+    return () => {
+      mediaQuery.removeEventListener("change", updateMode);
+    };
+  }, []);
+
+  return mode;
+}
+
+function ResponsiveAssistant() {
+  const mode = useResponsiveAssistantMode();
+
+  if (mode === "sidebar") {
+    return <CopilotSidebar />;
+  }
+
+  if (mode === "popup") {
+    return <CopilotPopup />;
+  }
+
+  return null;
+}
 
 function CatalogPageContent() {
   const chatConfiguration = useCopilotChatConfiguration();
@@ -36,10 +74,10 @@ function CatalogPageContent() {
   }, []);
 
   return (
-  <>
-    <ProductRecommendationsTool />
+    <>
+      <ProductRecommendationsTool />
 
-    <div className="min-h-screen bg-slate-100">
+      <div className="min-h-screen bg-slate-100">
         <CatalogHeader onOpenAssistant={openAssistant} />
 
         <ProductCatalog
@@ -63,7 +101,7 @@ function CatalogPageContent() {
         />
       )}
 
-      <CopilotSidebar />
+      <ResponsiveAssistant />
     </>
   );
 }
@@ -75,8 +113,7 @@ export default function Home() {
       isModalDefaultOpen={false}
       labels={{
         modalHeaderTitle: "AI-помощник по каталогу",
-        welcomeMessageText:
-          "Помогу подобрать товары под ваш бюджет.",
+        welcomeMessageText: "Помогу подобрать товары под ваш бюджет.",
         chatInputPlaceholder:
           "Например: Подбери товары на сумму до 5 000 ₽",
         chatDisclaimerText:
