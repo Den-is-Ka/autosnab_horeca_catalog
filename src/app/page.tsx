@@ -1,42 +1,117 @@
-import { CopilotSidebar } from "@copilotkit/react-core/v2";
+"use client";
 
-import { ApplicationsDashboard } from "@/components/applications_dashboard";
+import {
+  CopilotChatConfigurationProvider,
+  CopilotSidebar,
+  useCopilotChatConfiguration,
+} from "@copilotkit/react-core/v2";
+import { useCallback, useState } from "react";
+
+import { CatalogHeader } from "@/components/catalog/catalog_header";
+import { ProductCatalog } from "@/components/catalog/product_catalog";
+import {
+  ToastNotification,
+  type ToastKind,
+} from "@/components/toast_notification";
+import { CartProvider } from "@/context/cart_context";
+
+type ToastState = {
+  message: string;
+  kind: ToastKind;
+};
+
+const priceFormatter = new Intl.NumberFormat("ru-RU");
+
+function CatalogPageContent() {
+  const chatConfiguration = useCopilotChatConfiguration();
+  const [toast, setToast] = useState<ToastState | null>(null);
+
+  const openAssistant = useCallback(() => {
+    chatConfiguration?.setModalOpen?.(true);
+  }, [chatConfiguration]);
+
+  const closeToast = useCallback(() => {
+    setToast(null);
+  }, []);
+
+  return (
+    <>
+      <div className="min-h-screen bg-slate-100">
+        <CatalogHeader onOpenAssistant={openAssistant} />
+
+        <ProductCatalog
+          onProductAdded={({ product, quantity, totalPrice }) => {
+            setToast({
+              kind: "success",
+              message:
+                `«${product.name}» добавлено: ` +
+                `${quantity} ${product.unit}. ` +
+                `Сумма: ${priceFormatter.format(totalPrice)} ₽.`,
+            });
+          }}
+        />
+      </div>
+
+      {toast && (
+        <ToastNotification
+          message={toast.message}
+          kind={toast.kind}
+          onClose={closeToast}
+        />
+      )}
+
+      <CopilotSidebar />
+    </>
+  );
+}
 
 export default function Home() {
   return (
-    <>
-      <ApplicationsDashboard />
+    <CopilotChatConfigurationProvider
+      agentId="default"
+      isModalDefaultOpen={false}
+      labels={{
+        modalHeaderTitle: "AI-помощник по каталогу",
+        welcomeMessageText:
+          "Помогу подобрать товары под ваш бюджет.",
+        chatInputPlaceholder:
+          "Например: Подбери товары на сумму до 5 000 ₽",
+        chatDisclaimerText:
+          "Рекомендации формируются на основе товаров каталога.",
 
-      <CopilotSidebar
-        agentId="default"
-        labels={{
-          modalHeaderTitle: "AI-ассистент по заявкам",
-          welcomeMessageText: "Чем я могу помочь?",
-          chatInputPlaceholder: "Введите сообщение...",
-          chatDisclaimerText:
-            "AI может ошибаться. Проверяйте важную информацию.",
+        chatToggleOpenLabel: "Открыть AI-помощника",
+        chatToggleCloseLabel: "Закрыть AI-помощника",
 
-          chatToggleOpenLabel: "Открыть AI-ассистента",
-          chatToggleCloseLabel: "Закрыть AI-ассистента",
+        chatInputToolbarStartTranscribeButtonLabel:
+          "Начать диктовку",
+        chatInputToolbarCancelTranscribeButtonLabel:
+          "Отменить диктовку",
+        chatInputToolbarFinishTranscribeButtonLabel:
+          "Завершить диктовку",
+        chatInputToolbarAddButtonLabel: "Добавить вложения",
+        chatInputToolbarToolsButtonLabel: "Инструменты",
 
-          chatInputToolbarStartTranscribeButtonLabel: "Начать диктовку",
-          chatInputToolbarCancelTranscribeButtonLabel: "Отменить диктовку",
-          chatInputToolbarFinishTranscribeButtonLabel: "Завершить диктовку",
-          chatInputToolbarAddButtonLabel: "Добавить вложения",
-          chatInputToolbarToolsButtonLabel: "Инструменты",
+        assistantMessageToolbarCopyCodeLabel: "Копировать код",
+        assistantMessageToolbarCopyCodeCopiedLabel:
+          "Код скопирован",
+        assistantMessageToolbarCopyMessageLabel:
+          "Копировать ответ",
+        assistantMessageToolbarThumbsUpLabel: "Хороший ответ",
+        assistantMessageToolbarThumbsDownLabel: "Плохой ответ",
+        assistantMessageToolbarReadAloudLabel:
+          "Прочитать вслух",
+        assistantMessageToolbarRegenerateLabel:
+          "Сгенерировать заново",
 
-          assistantMessageToolbarCopyCodeLabel: "Копировать код",
-          assistantMessageToolbarCopyCodeCopiedLabel: "Код скопирован",
-          assistantMessageToolbarCopyMessageLabel: "Копировать ответ",
-          assistantMessageToolbarThumbsUpLabel: "Хороший ответ",
-          assistantMessageToolbarThumbsDownLabel: "Плохой ответ",
-          assistantMessageToolbarReadAloudLabel: "Прочитать вслух",
-          assistantMessageToolbarRegenerateLabel: "Сгенерировать заново",
-
-          userMessageToolbarCopyMessageLabel: "Копировать сообщение",
-          userMessageToolbarEditMessageLabel: "Редактировать сообщение",
-        }}
-      />
-    </>
+        userMessageToolbarCopyMessageLabel:
+          "Копировать сообщение",
+        userMessageToolbarEditMessageLabel:
+          "Редактировать сообщение",
+      }}
+    >
+      <CartProvider>
+        <CatalogPageContent />
+      </CartProvider>
+    </CopilotChatConfigurationProvider>
   );
 }

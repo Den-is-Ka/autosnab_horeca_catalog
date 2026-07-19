@@ -1,0 +1,107 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 800 600"
+  role="img"
+  aria-labelledby="title description"
+>
+  <title id="title">Томаты</title>
+  <desc id="description">Иллюстрация товара Томаты</desc>
+
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f0fdf4" />
+      <stop offset="100%" stop-color="#bbf7d0" />
+    </linearGradient>
+
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow
+        dx="0"
+        dy="18"
+        stdDeviation="18"
+        flood-color="#0f172a"
+        flood-opacity="0.16"
+      />
+    </filter>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#background)" />
+
+  <circle
+    cx="680"
+    cy="105"
+    r="125"
+    fill="#16a34a"
+    opacity="0.10"
+  />
+
+  <circle
+    cx="110"
+    cy="520"
+    r="165"
+    fill="#16a34a"
+    opacity="0.08"
+  />
+
+  <g filter="url(#shadow)">
+    <rect
+      x="225"
+      y="105"
+      width="350"
+      height="300"
+      rx="42"
+      fill="#ffffff"
+    />
+
+    <rect
+      x="265"
+      y="145"
+      width="270"
+      height="38"
+      rx="19"
+      fill="#16a34a"
+      opacity="0.18"
+    />
+
+    <path
+      d="M315 235
+         C345 185 455 185 485 235
+         C520 292 475 355 400 355
+         C325 355 280 292 315 235Z"
+      fill="#16a34a"
+      opacity="0.82"
+    />
+
+    <circle
+      cx="400"
+      cy="270"
+      r="42"
+      fill="#ffffff"
+      opacity="0.75"
+    />
+  </g>
+
+  <text
+    x="400"
+    y="465"
+    text-anchor="middle"
+    font-family="Arial, sans-serif"
+    font-size="22"
+    font-weight="700"
+    letter-spacing="3"
+    fill="#16a34a"
+  >
+    ОВОЩИ
+  </text>
+
+  <text
+    x="400"
+    y="525"
+    text-anchor="middle"
+    font-family="Arial, sans-serif"
+    font-size="48"
+    font-weight="800"
+    fill="#0f172a"
+  >
+    Томаты
+  </text>
+</svg>
