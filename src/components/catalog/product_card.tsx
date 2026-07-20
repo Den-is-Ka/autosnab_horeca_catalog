@@ -61,7 +61,7 @@ export function ProductCard({
 
         <div className="mt-4">
           <span className="text-2xl font-bold text-emerald-700">
-            {priceFormatter.format(product.price)} ₽
+            {priceFormatter.format(product.price)} Р
           </span>
 
           <span className="ml-1 text-sm text-slate-500">
@@ -86,7 +86,7 @@ export function ProductCard({
           </span>
 
           <p className="mt-1 text-lg font-bold text-slate-900">
-            {priceFormatter.format(totalPrice)} ₽
+            {priceFormatter.format(totalPrice)} Р
           </p>
         </div>
 

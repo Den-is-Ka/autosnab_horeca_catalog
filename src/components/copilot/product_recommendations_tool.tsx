@@ -127,7 +127,7 @@ function RecommendationCards({
 
         <p className="mt-1 text-xs text-emerald-800">
           Общая стоимость:{" "}
-          {priceFormatter.format(recommendationTotal)} ₽
+          {priceFormatter.format(recommendationTotal)} Р
         </p>
       </div>
 
@@ -156,7 +156,7 @@ function RecommendationCards({
                   </h3>
 
                   <p className="mt-1 text-xs text-slate-500">
-                    {priceFormatter.format(product.price)} ₽
+                    {priceFormatter.format(product.price)} Р
                     /{product.unit}
                   </p>
                 </div>
@@ -166,7 +166,7 @@ function RecommendationCards({
                     shrink-0 text-sm font-bold text-emerald-700
                   "
                 >
-                  {priceFormatter.format(totalPrice)} ₽
+                  {priceFormatter.format(totalPrice)} Р
                 </p>
               </div>
 
@@ -186,7 +186,7 @@ function RecommendationCards({
                     `«${product.name}» добавлено из AI-чата: ` +
                       `${quantity} ${product.unit}. ` +
                       `Сумма: ` +
-                      `${priceFormatter.format(totalPrice)} ₽.`,
+                      `${priceFormatter.format(totalPrice)} Р.`,
                   );
                 }}
                 className="
