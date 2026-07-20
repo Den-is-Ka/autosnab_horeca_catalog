@@ -178,7 +178,7 @@ describe("ProductRecommendationsTool", () => {
     );
 
     expect(totalPriceText).toHaveTextContent(
-      /Общая стоимость:\s*4\s*960\s*₽/,
+      /Общая стоимость:\s*4\s*960\s*Р/,
     );
 
     expect(
@@ -243,7 +243,7 @@ describe("ProductRecommendationsTool", () => {
     expect(
       screen.getByText(
         "«Томаты» добавлено из AI-чата: " +
-          "5 кг. Сумма: 1 050 ₽.",
+          "5 кг. Сумма: 1 050 Р.",
       ),
     ).toBeInTheDocument();
   });

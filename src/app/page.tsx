@@ -55,7 +55,7 @@ function ResponsiveAssistant() {
   }
 
   if (mode === "popup") {
-    return <CopilotPopup />;
+    return <CopilotPopup toggleButton="hidden" />;
   }
 
   return null;
@@ -87,7 +87,7 @@ function CatalogPageContent() {
               message:
                 `«${product.name}» добавлено: ` +
                 `${quantity} ${product.unit}. ` +
-                `Сумма: ${priceFormatter.format(totalPrice)} ₽.`,
+                `Сумма: ${priceFormatter.format(totalPrice)} Р.`,
             });
           }}
         />
@@ -115,7 +115,7 @@ export default function Home() {
         modalHeaderTitle: "AI-помощник по каталогу",
         welcomeMessageText: "Помогу подобрать товары под ваш бюджет.",
         chatInputPlaceholder:
-          "Например: Подбери товары на сумму до 5 000 ₽",
+          "Например: Подбери товары на сумму до 5 000 Р",
         chatDisclaimerText:
           "Рекомендации формируются на основе товаров каталога.",
 
@@ -155,3 +155,5 @@ export default function Home() {
     </CopilotChatConfigurationProvider>
   );
 }
+
+

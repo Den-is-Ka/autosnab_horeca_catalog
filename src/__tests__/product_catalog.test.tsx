@@ -229,7 +229,7 @@ describe("ProductCatalog", () => {
     expect(quantityInput).toHaveValue(3);
 
     expect(
-      card.getByText("1 050 ₽"),
+      card.getByText("1 050 Р"),
     ).toBeInTheDocument();
 
     await user.click(
