@@ -55,7 +55,7 @@ function ResponsiveAssistant() {
   }
 
   if (mode === "popup") {
-    return <CopilotPopup />;
+    return <CopilotPopup toggleButton="hidden" />;
   }
 
   return null;
@@ -155,3 +155,5 @@ export default function Home() {
     </CopilotChatConfigurationProvider>
   );
 }
+
+
